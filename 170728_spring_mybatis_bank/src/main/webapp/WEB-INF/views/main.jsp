@@ -10,7 +10,7 @@
 <html>
 <head>
 <meta charset="EUC-KR">
-<title>은행을만들어봅시다.</title>
+<title>여기는브랜치테스트입니다.</title>
 <style type="text/css">
 *{margin:0;padding:0;}
    body { font : 15px "굴림", Gulim ;width:300px;}

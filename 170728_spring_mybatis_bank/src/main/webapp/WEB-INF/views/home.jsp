@@ -19,7 +19,7 @@
       <li data-icon="minus"><a href="#">입금하기</a></li>
       <li data-icon="delete"><a href="#">출금하기</a></li>
       <li data-icon="location"><a href="accInfo.mobile">계좌조회</a></li>   
-      <li data-icon="false"><a href="allAccInfo.mobile">전체계좌조회</a></li>
+      <li data-icon="false"><a href="allAccInfo.mobile">전체계좌조회ㅁㅇㄴㅇㅁㅇㅁㄴㅇㅁㄴ</a></li>
     </ul>
   </div>
 </div> 

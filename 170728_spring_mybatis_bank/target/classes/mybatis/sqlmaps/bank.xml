@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+	"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+	
+<mapper namespace="dao">
+
+	<select id="getAccounts" resultType="model.Account">
+		select
+		acc_id as id,
+		name as name,
+		balance as balance
+		from account
+	</select>
+	<select id="getAccount" parameterType="String" resultType="model.Account">
+		select
+		acc_id as id,
+		name as name,
+		balance as balance
+		from account
+		where acc_id=#{id}
+	</select>
+	<select id="makeAccount" parameterType="model.Account">
+		insert into account (acc_id, name, balance)
+		values (#{id}, #{name}, #{balance})
+	</select>
+	<select id="updateAccount" parameterType="model.Account">
+		update account
+		set name=#{name}, balance=#{balance}
+		where acc_id=#{id}
+	</select>
+	
+
+</mapper>

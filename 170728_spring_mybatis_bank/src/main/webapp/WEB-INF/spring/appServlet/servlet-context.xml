@@ -2,27 +2,74 @@
 <beans:beans xmlns="http://www.springframework.org/schema/mvc"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:p="http://www.springframework.org/schema/p"
 	xmlns:context="http://www.springframework.org/schema/context"
-	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
-		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc 
+	http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context 
+		http://www.springframework.org/schema/context/spring-context.xsd">
 
 	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
 	
 	<!-- Enables the Spring MVC @Controller programming model -->
-	<annotation-driven />
+<!-- 	<annotation-driven /> -->
 
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
 	<resources mapping="/resources/**" location="/resources/" />
-
-	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
+	<!-- 컨트롤러 되게하는고 ..어노테이션.. -->
+	<beans:bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping" />
+	<beans:bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" />
+	<!-- 1. HandlerMapping -->
+	<beans:bean id="handlerMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+		<beans:property name="mappings">
+			<beans:value>
+				/home.mobile=mainController
+				/allAccInfo.mobile=accountController
+				/makeAccountAction.mobile=accountController
+				/accInfo.mobile=accountController
+				
+				/main.html=mainController
+				/makeAccountAction.bk=accountController
+				/allAccInfo.bk=accountController
+				/deposit.bk=depositController
+				/depositAction.action=depositController
+				/withdraw.bk=withdrawController
+				/withdrawAction.action=withdrawController
+				/*.bk=mainController
+			</beans:value>
+		</beans:property>
+	</beans:bean>
+	<!-- 2. Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
 	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<beans:property name="prefix" value="/WEB-INF/views/" />
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 	
-	<context:component-scan base-package="com.lecto.bank" />
+<!-- 	<context:component-scan base-package="com.lecto.bank" /> -->
+	
+	<!-- Controller beans... -->
+	<beans:bean id="mainController" class="controller.MainController" ></beans:bean>
+	<beans:bean id="accountController" class="controller.AccountController" p:accountDao-ref="accountDao"></beans:bean>
+	<beans:bean id="depositController" class="controller.DepositController" 
+				p:bank-ref="bank" p:depositionValidator-ref="depositionValidator"></beans:bean>
+	<beans:bean id="withdrawController" class="controller.WithdrawController"
+				p:bank-ref="bank" p:depositionValidator-ref="depositionValidator"></beans:bean>	
+	<!-- Dao beans... -->
+	<beans:bean id="accountDao" class="dao.AccountDaoImpl" p:sqlSession-ref="sqlSession"></beans:bean>
+	<!-- Logic beans... -->
+	<beans:bean id="bank" class="logic.BankImpl" p:accountDao-ref="accountDao"></beans:bean>
+	<!-- Util beans... -->
+	<beans:bean id="depositionValidator" class="util.DepositionValidator" ></beans:bean>
 	
 	
-	
+	<!-- MessageSource -->
+	<beans:bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+		<beans:property name="basenames">
+			<beans:list>
+				<beans:value>messages</beans:value>
+			</beans:list>
+		</beans:property>
+	</beans:bean>
 </beans:beans>
